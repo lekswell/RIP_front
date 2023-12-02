@@ -7,7 +7,7 @@ import EventPage from './Event';
 const router = createBrowserRouter([
   {
     path: '/RIP_front',
-    element: <h1>Это наша стартовая страница</h1>,
+    element: <EventsPage />,
   },
   {
     path: '/RIP_front/events',
