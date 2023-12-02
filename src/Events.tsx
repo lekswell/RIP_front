@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Breadcrumbs from './Breadcrumbs';
 import logoImage from './logo.png';
@@ -51,19 +51,22 @@ const EventsPage: FC = () => {
     fetchEvents(searchValue);
   }, [searchValue]); // Update the effect to run whenever searchValue changes
 
-  const searchInput = (
-    <form onSubmit={(e) => { e.preventDefault(); fetchEvents(searchValue); }}>
-      <input
-        type="text"
-        name="query"
-        placeholder="Поиск мероприятий"
-        className="search-input"
-        value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
-      />
-      <input type="submit" value="Искать" className="btn-custom" />
-    </form>
-  );
+const searchInput = (
+  <form>
+    <input
+      type="text"
+      name="query"
+      placeholder="Поиск мероприятий"
+      className="search-input"
+      value={searchValue}
+      onChange={(event) => setSearchValue(event.target.value)}
+    />
+    <button type="button" className="btn-custom" onClick={handleSearchClick}>
+      Искать
+    </button>
+  </form>
+);
+
 
   return (
     <div>
