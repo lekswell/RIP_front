@@ -1,0 +1,16 @@
+ 
+.breadcrumbs {
+white-space: nowrap;
+color: black;
+margin: 20px 20px;
+text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
+font-family: 'Arial', sans-serif;
+}
+
+.breadcrumb-link {
+display: inline;
+color: black;
+margin: 20px 20px;
+text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
+font-family: 'Arial', sans-serif;
+}  
