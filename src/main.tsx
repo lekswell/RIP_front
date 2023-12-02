@@ -6,15 +6,15 @@ import EventPage from './Event';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/RIP_front',
     element: <h1>Это наша стартовая страница</h1>,
   },
   {
-    path: '/events',
+    path: '/RIP_front/events',
     element: <EventsPage />,
   },
   {
-    path: '/events/:id/',
+    path: '/RIP_front/events/:id/',
     element: <EventPage />,
   },
 ]);

@@ -19,7 +19,7 @@ const EventPage: React.FC = () => {
   });
 
   const breadcrumbsItems = [
-    { label: 'Актуальные мероприятия', link: '/events' },
+    { label: 'Актуальные мероприятия', link: '/RIP_front/events' },
     { label: 'Подробнее: ' + eventData.Name , link: '' },
   ];
 
@@ -44,11 +44,11 @@ const EventPage: React.FC = () => {
   return (
     <div className="container">
       <header>
-        <a href="/events">
+        <a href="/RIP_front/events">
           <img className='logo'  src={logoImage} />
         </a>
         <h2>Музей МГТУ им. Н.Э.Баумана</h2>
-        <a href="/events" className="btn-custom">Вернуться к мероприятиям</a>
+        <a href="/RIP_front/events" className="btn-custom">Вернуться к мероприятиям</a>
         <a href="{% url 'personal_account_url' %}" className="btn-custom">Личный кабинет</a>
       </header>
       {

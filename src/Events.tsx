@@ -42,7 +42,7 @@ const EventsPage: FC = () => {
 
   const handleSearchClick = () => {
     // Redirect to the same frontend page with the search query parameter
-    navigateTo(`/events/?query=${searchValue}`);
+    navigateTo(`/RIP_front/events/?query=${searchValue}`);
     // Fetch data after navigating to the new URL
     fetchEvents(searchValue);
   };
@@ -71,7 +71,7 @@ const searchInput = (
   return (
     <div>
       <header>
-        <a href="/events">
+        <a href="/RIP_front/events">
           <img className='logo'  src={logoImage} />
         </a>
         <h2>Музей МГТУ им. Н.Э.Баумана</h2>
@@ -83,7 +83,7 @@ const searchInput = (
         {events.map((event) => (
           <li key={event.Event_id}>
             <h2>{event.Name}</h2>
-            <a href={`/events/${event.Event_id}`}>
+            <a href={`/RIP_front/events/${event.Event_id}`}>
               <img style={{ textAlign: 'center' }} src={(event.Image !== 'http://localhost:9000/events/') ? event.ImageURL : logoImage} alt={event.Name} />
             </a>
             <h5>
