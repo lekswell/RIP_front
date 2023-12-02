@@ -6,6 +6,10 @@ import EventPage from './Event';
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <h1>Это наша стартовая страница</h1>,
+  },
+  {
     path: '/events',
     element: <EventsPage />,
   },

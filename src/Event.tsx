@@ -45,7 +45,7 @@ const EventPage: React.FC = () => {
     <div className="container">
       <header>
         <a href="/events">
-          <img className='logo' src="http://localhost:9000/events/logo-bmstu.png" />
+          <img className='logo'  src={logoImage} />
         </a>
         <h2>Музей МГТУ им. Н.Э.Баумана</h2>
         <a href="/events" className="btn-custom">Вернуться к мероприятиям</a>
