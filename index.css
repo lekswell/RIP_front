@@ -1,10 +1,13 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: rgb(240, 240, 240); 
-  margin: 0;
-  padding: 0;
+  background: linear-gradient(to bottom, #747474 0px, #c0bebe 150px, #c0bebe);
+  background-size: cover;
+  background-attachment: fixed; /* Делает фон фиксированным */
+  margin: 0; /* Убирает отступы по умолчанию */
+  padding: 0; /* Убирает внутренние отступы по умолчанию */
+  min-height: 100%; /* Устанавливает минимальную высоту body на 100% окна браузера */
+  display: flex;
+  flex-direction: column;
 }
-
 
 .logo {
   width: 100px; /* Устанавливаем ширину логотипа в 10 пикселей */
@@ -13,15 +16,7 @@ body {
   margin-right: 20px;
 }
 
-
 html, body {
   height: 100%;
 }
 
-.footer {
-  position: fixed;
-  top: calc(100vh - 50px);
-  width: 100vw;
-  height: 50px;
-  background-color: #c9b09d;
-}

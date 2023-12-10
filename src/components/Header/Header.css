@@ -1,0 +1,29 @@
+.logo {
+    max-height: 100px; /* Set the maximum height for the logo */
+    max-width: 70px;
+    margin-left: 20px;
+  }
+
+header {
+position: sticky;
+top: 0;
+background-color: #747474;
+justify-content: space-between; /* Evenly distribute items */
+display: flex;
+align-items: center; /* Align items vertically */
+padding: 10px 20px;
+}
+
+h2 {
+  color: white; /* Белый текст */
+  margin: 20px 20px;
+  text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+  font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
+  /* Дополнительные стили по вашему выбору */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+  

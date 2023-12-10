@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import EventsPage from './Events';
-import EventPage from './Event';
+import EventsPage from './pages/EventsPage/Events';
+import EventPage from './pages/EventPage/Event';
 
 const router = createBrowserRouter([
   {

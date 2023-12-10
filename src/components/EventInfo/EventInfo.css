@@ -1,0 +1,36 @@
+h2 {
+    color: white; /* Белый текст */
+    margin: 20px 20px;
+    text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+    font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
+    /* Дополнительные стили по вашему выбору */
+  }
+  
+h4 {
+color: black;
+margin: 20px 20px;
+text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
+font-family: 'Arial', sans-serif;
+}
+
+.card-table {
+    display: table;
+    margin-left: 20px;
+    margin-right: 30px; /* Добавьте отступ между блоками */
+    border-collapse: separate; /* Разделяем границы ячеек */
+    border-spacing: 20px; /* Установите отступ между ячейками */
+}
+  
+.card-cell {
+background-color: #c0bebe;
+display: table-cell;
+text-align: center;
+padding: 10px; /* Добавьте отступ внутри ячейки */
+}
+
+.img-card {
+    max-width: 100%;
+    display: block; /* Убирает белую линию вокруг изображений */
+    width: 250px; /* Фиксированный размер для изображений (по вашему выбору) */
+    height: 380px; /* Фиксированный размер для изображений (по вашему выбору) */
+  }

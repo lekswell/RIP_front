@@ -1,0 +1,11 @@
+.btn-custom {
+    background-color: rgb(33, 33, 33); /* Черный фон */
+    color: white; /* Белый текст */
+    margin: 0px 20px;
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    border-radius: 10px; /* Закругленные края */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* Жирный текст */
+    display: inline-block; /* Размещаем кнопку в одну строку с значком */
+  }

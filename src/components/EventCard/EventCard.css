@@ -1,0 +1,26 @@
+li {
+    display: inline-block;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    background-color: #c0bebe;
+    width: 300px; /* Фиксированная ширина */
+    height: 500px; /* Фиксированная высота */
+  }
+
+h2 {
+  color: white; /* Белый текст */
+  margin: 20px 20px;
+  text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+  font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
+  /* Дополнительные стили по вашему выбору */
+}
+
+img {
+  margin: 0 auto; /* Центрируем изображение по горизонтали */
+  max-width: 100%;
+  height: auto;
+  display: block; /* Убирает белую линию вокруг изображений */
+  border-radius: 10%; /* Делает изображения круглыми */
+  width: 160px; /* Фиксированный размер для изображений (по вашему выбору) */
+  height: 260px; /* Фиксированный размер для изображений (по вашему выбору) */
+}
