@@ -1,9 +1,10 @@
 .search-input {
     width: 300px;
-    background-color: white; /* Белый фон */
-    border: 1px solid black; /* Черная окантовка */
+    background-color: #bab8b8; /* Белый фон */
+    border: 2px solid rgb(33, 33, 33); /* Черная окантовка */
     border-radius: 5px; /* Закругленные края */
-    margin-left: 35px;
-    padding: 8px; /* Внутренний отступ */
-    color: black; /* Цвет текста */
+    color: black;
+    font-family: 'Arial', sans-serif;
+    margin-left: 50px;
+    padding: 8px; /* Внутренний отступ *//
   }

@@ -43,3 +43,14 @@ p {
   /* Дополнительные стили по вашему выбору */
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

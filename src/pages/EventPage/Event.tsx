@@ -5,43 +5,39 @@ import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import EventInfo from '../../components/EventInfo/EventInfo';
 import Header from '../../components/Header/Header';
 import "./Event.css"
-//import logoImage from '../logo.png';
+import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png'
 
-interface Event {
-  Event_id: number;
-  Name: string;
-  Start_date: string;
-  End_date: string;
-  Image: string;
-  ImageURL: string;
-  Status: string;
-  Info: string;
-}
+// Mock event data
+const mockEventData = {
+  Event_id: 1,
+  Name: 'Мероприятие',
+  Start_date: '2023-12-01',
+  End_date: '2023-12-03',
+  Image: 'image1',
+  ImageURL: logoImage,
+  Status: 'A',
+  Info: 'Крутое мероприятие в МГТУ',
+};
 
 const EventPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [eventData, setEventData] = useState<Event>({
-    Event_id: 0,
-    Name: '',
-    Start_date: '',
-    End_date: '',
-    Image: '',
-    ImageURL: '',
-    Status: '',
-    Info: '',
-  });
+  const [eventData, setEventData] = useState(mockEventData);
 
   const breadcrumbsItems = [
-    { label: 'Актуальные мероприятия', link: '/RIP_front/events' },
+    { label: 'Все мероприятия', link: '/RIP_front/events' },
     { label: `Подробнее: ${eventData.Name}`, link: '' },
   ];
 
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/events/${id}`);
-        const data = await response.json();
-        setEventData(data);
+        // Simulate fetching data from the server
+        // const response = await fetch(`http://localhost:8000/events/${id}`);
+        // const data = await response.json();
+        // setEventData(data);
+
+        // Set mock data instead of fetching from the server
+        setEventData(mockEventData);
       } catch (error) {
         console.error('Error fetching event data:', error);
       }

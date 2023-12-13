@@ -4,15 +4,19 @@
     margin-left: 20px;
   }
 
-header {
-position: sticky;
-top: 0;
-background-color: #747474;
-justify-content: space-between; /* Evenly distribute items */
-display: flex;
-align-items: center; /* Align items vertically */
-padding: 10px 20px;
-}
+  header {
+    position: sticky;
+    top: 0;
+    background-color: #747474;
+    justify-content: space-between; /* Evenly distribute items */
+    display: flex;
+    align-items: center; /* Align items vertically */
+    padding: 10px 20px;
+  }
+
+  header > * { 
+    margin-left: 5px;
+  }
 
 h2 {
   color: white; /* Белый текст */

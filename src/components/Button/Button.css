@@ -9,3 +9,7 @@
     font-weight: bold; /* Жирный текст */
     display: inline-block; /* Размещаем кнопку в одну строку с значком */
   }
+
+.btn-custom:hover {
+  background-color: black
+}

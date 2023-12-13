@@ -1,15 +1,24 @@
 .breadcrumbs {
+background-color: #747474;/* Черный фон */
+display: inline-block; /* Делаем блочными элементами */
+padding: 5px; /* Зазор вокруг текста */
+border-radius: 5px; /* Закругленные края */
 white-space: nowrap;
-color: black;
-margin: 20px 20px;
-text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
-font-family: 'Arial', sans-serif;
+color: white; /* Белый текст */
+margin: 20px 50px;
+text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
 }
 
 .breadcrumb-link {
+background-color: #747474; /* Черный фон */
+display: inline-block; /* Делаем блочными элементами */
+padding: 5px; /* Зазор вокруг текста */
+border-radius: 5px; /* Закругленные края */
 display: inline;
-color: black;
+color: white; /* Белый текст */
 margin: 20px 20px;
-text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
-font-family: 'Arial', sans-serif;
+text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
 }  
+    

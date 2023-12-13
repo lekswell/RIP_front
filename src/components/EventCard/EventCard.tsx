@@ -10,19 +10,34 @@ interface EventCardProps {
   startDate: string;
   endDate: string;
   image: string;
+  status: string;
   imageURL: string;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ eventId, name, startDate, endDate, image, imageURL }) => (
+const EventCard: React.FC<EventCardProps> = ({ eventId, name, startDate, endDate, image, status, imageURL }) => (
   <li>
     <h2>{name}</h2>
     <Link to={`/RIP_front/events/${eventId}`}>
       <img src={image !== 'http://localhost:9000/events/' ? imageURL : logoImage} alt={name} />
     </Link>
     <h5>
-      {startDate} - {endDate}
+      {getStatusText(status)}: {startDate} - {endDate}
     </h5>
   </li>
 );
+
+// Функция для получения человекочитаемого статуса
+const getStatusText = (status: string): string => {
+  switch (status) {
+    case 'A':
+      return 'Доступно';
+    case 'C':
+      return 'Завершено';
+    case 'S':
+      return 'Скоро';
+    default:
+      return '';
+  }
+};
 
 export default EventCard;

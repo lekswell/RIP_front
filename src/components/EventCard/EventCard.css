@@ -1,11 +1,17 @@
 li {
-    display: inline-block;
-    margin-right: 30px;
+    background-color: #bab8b8; /* Черный фон */
+    display: inline-block; /* Делаем блочными элементами */
+    padding: 3px; /* Зазор вокруг текста */
+    border-radius: 10px; /* Закругленные края */  
+    margin-right: 95px;
     margin-bottom: 30px;
-    background-color: #c0bebe;
     width: 300px; /* Фиксированная ширина */
-    height: 500px; /* Фиксированная высота */
+    height: 390px; /* Фиксированная высота */
   }
+
+li:hover {
+  background-color: #747474; /* Change to the color you want on hover */
+}
 
 h2 {
   color: white; /* Белый текст */
@@ -15,12 +21,20 @@ h2 {
   /* Дополнительные стили по вашему выбору */
 }
 
+h5 {
+  color: white; /* Белый текст */
+  margin: 20px 20px;
+  text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+  font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
+}
+
 img {
   margin: 0 auto; /* Центрируем изображение по горизонтали */
   max-width: 100%;
   height: auto;
   display: block; /* Убирает белую линию вокруг изображений */
-  border-radius: 10%; /* Делает изображения круглыми */
-  width: 160px; /* Фиксированный размер для изображений (по вашему выбору) */
-  height: 260px; /* Фиксированный размер для изображений (по вашему выбору) */
+  border-radius: 10%; /* Делаем изображения круглыми */
+  width: 200px; /* Фиксированный размер для изображений (по вашему выбору) */
+  height: 270px; /* Фиксированный размер для изображений (по вашему выбору) */
+  border: 0px solid #747474; /* Окантовка цвета кнопки */
 }
