@@ -1,4 +1,3 @@
-// pages/Events.tsx
 import React, { FC, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
@@ -8,7 +7,7 @@ import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
 import './Events.css';
 import StatusFilter from '../../components/StatusFilter/StatusFilter';
-import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png'
+import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png';
 
 interface Event {
   Event_id: number;
@@ -32,54 +31,46 @@ const EventsPage: FC = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
+  const mockEvents: Event[] = [
+    {
+      Event_id: 1,
+      Name: 'Мероприятие 1',
+      Start_date: '2023-12-01',
+      End_date: '2023-12-03',
+      Image: 'image1',
+      ImageURL: logoImage,
+      Status: 'A',
+      Info: 'Крутое мероприятие №1',
+    },
+    {
+      Event_id: 2,
+      Name: 'Мероприятие 2',
+      Start_date: '2023-12-05',
+      End_date: '2023-12-07',
+      Image: 'image2',
+      ImageURL: logoImage,
+      Status: 'C',
+      Info: 'Крутое мероприятие №2',
+    },
+    {
+      Event_id: 3,
+      Name: 'Мероприятие 3',
+      Start_date: '2023-12-10',
+      End_date: '2023-12-12',
+      Image: 'image3',
+      ImageURL: logoImage,
+      Status: 'S',
+      Info: 'Крутое мероприятие №3',
+    },
+  ];
+
   const fetchEvents = (searchText: string, status: string) => {
     const queryParams = new URLSearchParams({
       search: searchText,
       status: status,
     });
-
-    // Simulate server response when the server is not available
-    const isServerAvailable = Math.random() > 0.5; // Adjust the probability as needed
-    if (!isServerAvailable) {
-      // Create three mock event cards
-      const mockEvents = [
-        {
-          Event_id: 1,
-          Name: 'Мероприятие 1',
-          Start_date: '2023-12-01',
-          End_date: '2023-12-03',
-          Image: 'image1',
-          ImageURL: logoImage,
-          Status: 'A',
-          Info: 'Крутое мероприятие №1',
-        },
-        {
-          Event_id: 2,
-          Name: 'Мероприятие 2',
-          Start_date: '2023-12-05',
-          End_date: '2023-12-07',
-          Image: 'image2',
-          ImageURL: logoImage,
-          Status: 'C',
-          Info: 'Крутое мероприятие №2',
-        },
-        {
-          Event_id: 3,
-          Name: 'Мероприятие 3',
-          Start_date: '2023-12-10',
-          End_date: '2023-12-12',
-          Image: 'image3',
-          ImageURL: logoImage,
-          Status: 'S',
-          Info: 'Крутое мероприятие №3',
-        },
-      ];
-
-      setEvents(mockEvents);
-      return;
-    }
-
-    // Actual fetch when the server is available
+    
+    // Simulate fetching data from the server
     fetch(`http://localhost:8000/events/?${queryParams}`)
       .then((response) => response.json())
       .then((data) => {
@@ -87,6 +78,7 @@ const EventsPage: FC = () => {
       })
       .catch((error) => {
         console.error('Error fetching events:', error);
+        setEvents(mockEvents);
       });
   };
 
@@ -109,15 +101,13 @@ const EventsPage: FC = () => {
   };
 
   useEffect(() => {
-    // Fetch data when the component mounts for the first time
     fetchEvents(searchValue, selectedStatus);
   }, []); // Empty dependency array means this effect runs once on mount
 
   useEffect(() => {
-    // Fetch data when the component mounts and whenever searchValue or selectedStatus changes
     if (isSearchClicked) {
       fetchEvents(searchValue, selectedStatus);
-      setIsSearchClicked(false); // Reset the flag after filtering
+      setIsSearchClicked(false);
     }
   }, [searchValue, selectedStatus, isSearchClicked]);
 
@@ -144,7 +134,7 @@ const EventsPage: FC = () => {
       </div>
       <div>
         <ul>
-          {events.map((event) => (
+          {(events.length > 0 ? events : mockEvents).map((event) => (
             <EventCard
               eventId={event.Event_id}
               name={event.Name}

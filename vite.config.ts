@@ -12,6 +12,6 @@ export default defineConfig({
       },
     },
    },
-  base: "RIP_front",
+  base: "RIP_front/events",
   plugins: [react()],
 })

@@ -11,12 +11,12 @@ import logoImage from '/home/student/pythonProjects/front/src/components/Images/
 const mockEventData = {
   Event_id: 1,
   Name: 'Мероприятие',
-  Start_date: '2023-12-01',
-  End_date: '2023-12-03',
+  Start_date: '2023-09-01',
+  End_date: '2024-01-20',
   Image: 'image1',
   ImageURL: logoImage,
   Status: 'A',
-  Info: 'Крутое мероприятие в МГТУ',
+  Info: 'Крутое мероприятие в музее МГТУ',
 };
 
 const EventPage: React.FC = () => {
@@ -32,14 +32,12 @@ const EventPage: React.FC = () => {
     const fetchEventData = async () => {
       try {
         // Simulate fetching data from the server
-        // const response = await fetch(`http://localhost:8000/events/${id}`);
-        // const data = await response.json();
-        // setEventData(data);
-
-        // Set mock data instead of fetching from the server
-        setEventData(mockEventData);
+        const response = await fetch(`http://localhost:8000/events/${id}`);
+        const data = await response.json();
+        setEventData(data);
       } catch (error) {
         console.error('Error fetching event data:', error);
+        setEventData(mockEventData);
       }
     };
 
