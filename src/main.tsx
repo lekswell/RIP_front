@@ -5,10 +5,10 @@ import EventsPage from './pages/EventsPage/Events';
 import EventPage from './pages/EventPage/Event';
 
 const router = createBrowserRouter([
-  // {
-  //   path: '/RIP_front',
-  //   element: <EventsPage />,
-  // },
+  {
+    path: '/RIP_front',
+    element: <EventsPage />,
+  },
   {
     path: '/RIP_front/events',
     element: <EventsPage />,
