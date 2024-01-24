@@ -32,7 +32,7 @@ const EventPage: React.FC = () => {
     const fetchEventData = async () => {
       try {
         // Simulate fetching data from the server
-        const response = await fetch(`http://localhost:8000/events/${id}`);
+        const response = await fetch(`http://localhost:8000/events/${id}/`);
         const data = await response.json();
         setEventData(data);
       } catch (error) {
