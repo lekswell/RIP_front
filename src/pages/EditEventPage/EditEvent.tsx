@@ -130,6 +130,10 @@ const EditEventsPage: FC = () => {
     });
   };
 
+  const handleStatusChange = (eventId: number, value: string) => {
+    handleInputChange(eventId, 'Status', value);
+  };
+
   return (
     <div>
       <Header />
@@ -180,12 +184,15 @@ const EditEventsPage: FC = () => {
             />
             </td>
             <td>
-            <input
-                type="text"
-                className='event-input'
+            <select
+                className="event-input"
                 value={event.Status}
-                onChange={(e) => handleInputChange(event.Event_id, 'Status', e.target.value)}
-            />
+                onChange={(e) => handleStatusChange(event.Event_id, e.target.value)}
+            >
+                <option value="S">Скоро</option>
+                <option value="A">Доступно</option>
+                <option value="C">Завершено</option>
+            </select>
             </td>
             <td>
             <input

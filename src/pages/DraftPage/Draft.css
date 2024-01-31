@@ -1,0 +1,28 @@
+.events-container {
+    display: flex;
+    flex-wrap: nowrap; /* изменено значение на nowrap */
+    margin-left: 50px;
+    gap: 40px;
+  }
+  
+  .events-data {
+    background-color: gray;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    box-sizing: border-box;
+    align-items: center; /* добавлено свойство для выравнивания по центру */
+  }
+  
+  .form-row {
+    gap: 20px;
+    width: 100%; /* чтобы управлять шириной формы */
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    flex: 1;
+  }
+
+  

@@ -11,6 +11,7 @@ import ReservesPage from './pages/ReservesPage/Reserves';
 import ReservePage from './pages/ReservePage/Reserve';
 import EditEventPage from './pages/EditEventPage/EditEvent';
 import AddEventPage from './pages/AddEventPage/AddEvent';
+import DraftPage from './pages/DraftPage/Draft';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: '/RIP_front/add_event',
     element: <AddEventPage />,
+  },
+  {
+    path: '/RIP_front/draft',
+    element: <DraftPage />,
   },
 ]);
 

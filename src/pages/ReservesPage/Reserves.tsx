@@ -1,8 +1,6 @@
-// ReservationsPage.tsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Импортируем Link
+import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -10,8 +8,13 @@ import { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import './Reserves.css';
 import Header from '../../components/Header/Header';
-import { useSelector } from 'react-redux';
-import {RootState} from '../../store/Store'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/Store';
+import {
+  setStartDate,
+  setEndDate,
+  setReserveStatus,
+} from '../../store/slices/FilterSlice';
 
 registerLocale('ru', ru);
 
@@ -21,46 +24,19 @@ const breadcrumbsItems = [
 ];
 
 const ReservationsPage: React.FC = () => {
-  const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const { startDate, endDate, reserveStatus } = useSelector((state: RootState) => state.filter);
+  const role = useSelector((state: RootState) => state.auth.role);
 
-  const [filterStartDate, setFilterStartDate] = useState<Date | null>(
-    auth.isAuthenticated ? 
-      (localStorage.getItem('startDate') ? new Date(localStorage.getItem('startDate')!) : new Date()) 
-      : null
-  );
-  
-  const [filterEndDate, setFilterEndDate] = useState<Date | null>(
-    auth.isAuthenticated ? 
-      (localStorage.getItem('endDate') ? new Date(localStorage.getItem('endDate')!) : new Date()) 
-      : null
-  );
-  
-  const [status, setStatus] = useState<string | null>(
-    auth.isAuthenticated ? 
-      (localStorage.getItem('reserveStatus') || '') 
-      : null
-  );
-  
   const [reservations, setReservations] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      loadReservations();
-    } else {
-      // Обнулить значения, если пользователь не аутентифицирован
-      localStorage.removeItem('endDate');
-      localStorage.removeItem('startDate');
-      localStorage.removeItem('reserveStatus');
-    }
-  }, [auth.isAuthenticated, filterStartDate, filterEndDate, status]);
 
   const loadReservations = async () => {
     try {
-      const formattedStartDate = filterStartDate?.toISOString().split('T')[0] || null;
-      const formattedEndDate = filterEndDate?.toISOString().split('T')[0] || null;
+      const formattedStartDate = startDate ? new Date(startDate).toISOString().split('T')[0] : null;
+      const formattedEndDate = endDate ? new Date(endDate).toISOString().split('T')[0] : null;
 
       const response = await axios.get('http://localhost:8000/reserves/', {
-        params: { start_date: formattedStartDate, end_date: formattedEndDate, status },
+        params: { start_date: formattedStartDate, end_date: formattedEndDate, status: reserveStatus },
         withCredentials: true,
       });
 
@@ -70,20 +46,57 @@ const ReservationsPage: React.FC = () => {
     }
   };
 
-  const handleFilterStartDateChange = (date: Date | null) => {
-    setFilterStartDate(date);
-    localStorage.setItem('startDate', date?.toISOString() || '');
+  // Загрузка данных при монтировании компонента
+  useEffect(() => {
+    loadReservations();
+  }, [startDate, endDate, reserveStatus]);
 
+  // Начинаем опрашивать сервер каждые 5 секунд
+  useEffect(() => {
+    const intervalId = setInterval(loadReservations, 5000);
+
+    // Очищаем интервал при размонтировании компонента
+    return () => clearInterval(intervalId);
+  }, [startDate, endDate, reserveStatus]);
+
+  const handleFilterStartDateChange = (date: Date | null) => {
+    dispatch(setStartDate(date ? date.toISOString() : null));
   };
 
   const handleFilterEndDateChange = (date: Date | null) => {
-    setFilterEndDate(date);
-    localStorage.setItem('endDate', date?.toISOString() || '');
+    dispatch(setEndDate(date ? date.toISOString() : null));
   };
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(event.target.value);
-    localStorage.setItem('reserveStatus', event.target.value);
+    dispatch(setReserveStatus(event.target.value));
+  };
+
+  const handleComplete = async (reservation: any) => {
+    try {
+      // Отправляем запрос на сервер для завершения заявки
+      await axios.put(`http://localhost:8000/reserves/${reservation.reservation.Reserve_id}/edit_status_admin/`, 
+      { Status: 'C' },
+      { withCredentials: true });
+      
+      // После успешного завершения обновляем данные
+      loadReservations();
+    } catch (error) {
+      console.error('Ошибка при завершении заявки:', error);
+    }
+  };
+  
+  const handleCancel = async (reservation: any) => {
+    try {
+      // Отправляем запрос на сервер для отмены заявки
+      await axios.put(`http://localhost:8000/reserves/${reservation.reservation.Reserve_id}/edit_status_admin/`, 
+      { Status: 'Ca' },
+      { withCredentials: true });
+      
+      // После успешной отмены обновляем данные
+      loadReservations();
+    } catch (error) {
+      console.error('Ошибка при отмене заявки:', error);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -107,7 +120,7 @@ const ReservationsPage: React.FC = () => {
       <div className="filter-container">
         <div className="filter-item">
           <h3>Статус:</h3>
-          <select onChange={handleStatusChange} value={status || ''}>
+          <select onChange={handleStatusChange} value={reserveStatus || ''}>
             <option value="">Все</option>
             <option value="iP">В работе</option>
             <option value="Ca">Отменена</option>
@@ -118,7 +131,7 @@ const ReservationsPage: React.FC = () => {
         <div className="filter-item">
           <h3>Начальная дата:</h3>
           <DatePicker
-            selected={filterStartDate}
+            selected={startDate ? new Date(startDate) : null}
             onChange={handleFilterStartDateChange}
             locale="ru"
             dateFormat="dd.MM.yyyy"
@@ -128,7 +141,7 @@ const ReservationsPage: React.FC = () => {
         <div className="filter-item">
           <h3>Конечная дата:</h3>
           <DatePicker
-            selected={filterEndDate}
+            selected={endDate ? new Date(endDate) : null}
             onChange={handleFilterEndDateChange}
             locale="ru"
             dateFormat="dd.MM.yyyy"
@@ -143,6 +156,18 @@ const ReservationsPage: React.FC = () => {
               <th>Номер заявки</th>
               <th>Дата формирования</th>
               <th>Статус</th>
+
+              {/* Заголовки для админа */}
+              {role === 'Admin' && (
+                <>
+                  <th>Creation_date</th>
+                  <th>Completion_date</th>
+                  <th>Client_id</th>
+                  <th>Moderator_id</th>
+                  <th>Available</th>
+                  <th>Действия</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -155,7 +180,7 @@ const ReservationsPage: React.FC = () => {
                 </td>
                 <td>
                   <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                  {formatDate(reservation.reservation.Formation_date)}
+                    {formatDate(reservation.reservation.Formation_date)}
                   </Link>
                 </td>
                 <td>
@@ -165,10 +190,53 @@ const ReservationsPage: React.FC = () => {
                     {reservation.reservation.Status === 'C' && 'Завершена'}
                   </Link>
                 </td>
+
+                {/* Данные для админа */}
+                {role === 'Admin' && (
+                  <>
+                    <td>
+                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                      {formatDate(reservation.reservation.Creation_date)}
+                    </Link>
+                    </td>
+                    <td>
+                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                      {formatDate(reservation.reservation.Completion_date)}
+                    </Link>
+                    </td>
+                    <td>
+                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                      {reservation.reservation.Client_id}
+                    </Link>
+                    </td>
+                    <td>
+                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                      {reservation.reservation.Moderator_id}
+                    </Link>
+                    </td>
+                    <td>
+                      <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                        {reservation.reservation.Available !== undefined
+                          ? String(reservation.reservation.Available)
+                          : 'Неизвестно'}
+                      </Link>
+                    </td>
+                  </>
+                )}
+                {role === 'Admin' && reservation.reservation.Status === 'iP' && (
+                  <td>
+                    <button className='btn-edit' onClick={() => handleComplete(reservation)}>
+                      Завершить
+                    </button>
+                    <button className='btn-edit' onClick={() => handleCancel(reservation)}>
+                      Отменить
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
-      </table>
+        </table>
       </div>
     </div>
   );

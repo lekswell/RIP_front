@@ -33,11 +33,30 @@
 .btn-edit {
   background-color: rgb(33, 33, 33); /* Черный фон */
   color: white; /* Белый текст */
-  margin: 0px 50px;
+  margin: 0px 50px 5px;
   padding: 5px 5px;
   border-radius: 10px; /* Закругленные края */
   text-decoration: none; /* Убираем подчеркивание */
   font-family: 'Arial', sans-serif;
   font-weight: bold; /* Жирный текст */
   display: inline-block; /* Размещаем кнопку в одну строку с значком */
+}
+
+.btn-edit:hover {
+  background-color: black
+}
+
+.btn-draft {
+  background-color: rgb(33, 33, 33); /* Черный фон */
+  color: white; /* Белый текст */
+  padding: 5px 10px; /* Отступы внутри кнопки */
+  margin-left: 315px;
+  border-radius: 10px; /* Закругленные края */
+  text-decoration: none; /* Убираем подчеркивание */
+  font-family: 'Arial', sans-serif;
+  font-weight: bold; /* Жирный текст */
+  display: inline-block; /* Размещаем кнопку в одну строку с значком */
+}
+.btn-draft:hover {
+  background-color: black
 }

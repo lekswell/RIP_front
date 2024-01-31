@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/Store';
 import { setLogout, setIsAuthenticated, setUsername, setRole} from '../../store/slices/AuthSlice';
+import {setRemoveFilters} from '../../store/slices/FilterSlice'
 import Axios from 'axios';
 
 const Navbar: React.FC = () => {
@@ -34,9 +35,8 @@ const Navbar: React.FC = () => {
 
       // Успешно вышли, теперь вызываем action для выхода в Redux
       dispatch(setLogout());
-      localStorage.removeItem('endDate');
-      localStorage.removeItem('startDate');
-      localStorage.removeItem('reserveStatus');
+      dispatch(setRemoveFilters());
+
 
     } catch (error) {
       // Обработка ошибок, если не удалось выполнить выход

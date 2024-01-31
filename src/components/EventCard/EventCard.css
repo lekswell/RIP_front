@@ -6,7 +6,7 @@ li {
     margin-right: 95px;
     margin-bottom: 30px;
     width: 300px; /* Фиксированная ширина */
-    height: 390px; /* Фиксированная высота */
+    height: 450px; /* Фиксированная высота */
   }
 
 li:hover {

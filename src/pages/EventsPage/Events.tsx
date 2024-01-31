@@ -11,6 +11,8 @@ import Button from '../../components/Button/Button';
 import './Events.css';
 import StatusFilter from '../../components/StatusFilter/StatusFilter';
 import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png';
+import full_cart from '../../components/Images/full.png';
+import empty_cart from '../../components/Images/free.png'
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/Store';
 import { setSearch, setEventStatus } from '../../store/slices/FilterSlice';
@@ -97,14 +99,16 @@ const EventsPage: FC = () => {
       status: status,
     });
 
-    axios.get(`http://localhost:8000/events/?${queryParams}`)
+    axios.get(`http://localhost:8000/events/?${queryParams}`, {withCredentials: true})
     .then((response) => {
       console.log(response.data);
       setEvents(response.data.events);
   
       if (auth.isAuthenticated) {
-        localStorage.setItem('hasDraft', response.data.hasDraft);
-        dispatch(setDraft(response.data.hasDraft));
+        dispatch(setDraft(response.data.hasDraft))
+        if (response.data.hasDraft === 'True') {
+          localStorage.setItem('draftId', response.data.Draft.Reserve_id);
+        }
       }
     })
     .catch((error) => {
@@ -148,6 +152,20 @@ const EventsPage: FC = () => {
     }
   }, [searchValue, selectedStatus, isSearchClicked]);
 
+  const handleCartClick = () => {
+    // Обработка клика по корзине
+    navigateTo("/RIP_front/draft");
+  };
+  const cartIcon = (
+    <div>
+      <img className="button-image" src={full_cart} alt="Cart" />
+      <Button className="btn-draft" onClick={handleCartClick}>
+        Оформить заказ
+      </Button>
+    </div>
+  );
+
+
   return (
     <div>
       <Header />
@@ -170,6 +188,9 @@ const EventsPage: FC = () => {
           selectedStatus={selectedStatus}
           onStatusChange={handleStatusChange}
         />
+        {auth.isAuthenticated && auth.role === 'User' ? (
+          auth.hasDraft === 'True' ? cartIcon : <img className="button-image" src={empty_cart} alt="Empty Cart" />
+        ) : null}
       </div>
       <div>
         <ul>

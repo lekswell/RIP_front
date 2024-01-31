@@ -32,13 +32,13 @@ const FilterSlice = createSlice({
       state.search = action.payload;
       localStorage.setItem('search', action.payload);
     },
-    setStartDate: (state, action: PayloadAction<string>) => {
+    setStartDate: (state, action: PayloadAction<string | null>) => {
       state.startDate = action.payload;
-      localStorage.setItem('startDate', action.payload);
+      localStorage.setItem('startDate', action.payload || ''); // Убедитесь, что вы передаёте строку в localStorage
     },
-    setEndDate: (state, action: PayloadAction<string>) => {
+    setEndDate: (state, action: PayloadAction<string | null>) => {
       state.endDate = action.payload;
-      localStorage.setItem('endDate', action.payload);
+      localStorage.setItem('endDate', action.payload || ''); // Убедитесь, что вы передаёте строку в localStorage
     },
     setEventStatus: (state, action: PayloadAction<string>) => {
       state.eventStatus = action.payload;
@@ -48,6 +48,18 @@ const FilterSlice = createSlice({
       state.reserveStatus = action.payload;
       localStorage.setItem('reserveStatus', action.payload);
     },
+    setRemoveFilters: (state) => {
+      state.search = null;
+      state.startDate = null;
+      state.endDate = null;
+      state.eventStatus = null;
+      state.reserveStatus = null;
+      localStorage.removeItem('search');
+      localStorage.removeItem('startDate');
+      localStorage.removeItem('endDate');
+      localStorage.removeItem('eventStatus');
+      localStorage.removeItem('reserveStatus');
+    }
     // Добавьте другие reducers для других полей, если необходимо
   },
 });
@@ -58,6 +70,7 @@ export const {
   setEndDate,
   setEventStatus,
   setReserveStatus,
+  setRemoveFilters,
   // Экспортируйте другие reducers, если необходимо
 } = FilterSlice.actions;
 

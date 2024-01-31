@@ -55,6 +55,7 @@ const AuthSlice = createSlice({
       localStorage.removeItem('role');
       localStorage.removeItem('login');
       localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('draftId');
     },
   },
 });
