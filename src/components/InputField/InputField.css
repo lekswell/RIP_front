@@ -8,3 +8,24 @@
     margin-left: 50px;
     padding: 8px; /* Внутренний отступ */
   }
+
+.registration-input {
+  width: 300px;
+  background-color: #bab8b8; /* Белый фон */
+  border: 2px solid rgb(33, 33, 33); /* Черная окантовка */
+  border-radius: 5px; /* Закругленные края */
+  color: black;
+  font-family: 'Arial', sans-serif;
+  margin-left: 50px;
+  padding: 8px; /* Внутренний отступ */
+}
+
+.event-input {
+  width: 100px;
+  background-color: #bab8b8; /* Белый фон */
+  border: 2px solid rgb(33, 33, 33); /* Черная окантовка */
+  border-radius: 5px; /* Закругленные края */
+  color: black;
+  font-family: 'Arial', sans-serif;
+  padding: 8px; /* Внутренний отступ */
+}

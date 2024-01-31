@@ -1,11 +1,11 @@
-// pages/Event.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import EventInfo from '../../components/EventInfo/EventInfo';
 import Header from '../../components/Header/Header';
 import "./Event.css"
-import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png'
+import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png';
+import axios from 'axios';
 
 // Mock event data
 const mockEventData = {
@@ -24,16 +24,16 @@ const EventPage: React.FC = () => {
   const [eventData, setEventData] = useState(mockEventData);
 
   const breadcrumbsItems = [
-    { label: 'Все мероприятия', link: '/RIP_front/events' },
+    { label: 'Мероприятия', link: '/RIP_front/events' },
     { label: `Подробнее: ${eventData.Name}`, link: '' },
   ];
 
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        // Simulate fetching data from the server
-        const response = await fetch(`http://localhost:8000/events/${id}/`);
-        const data = await response.json();
+        // Изменение на axios
+        const response = await axios.get(`http://localhost:8000/events/${id}/`);
+        const data = response.data;
         setEventData(data);
       } catch (error) {
         console.error('Error fetching event data:', error);

@@ -13,3 +13,31 @@
 .btn-custom:hover {
   background-color: black
 }
+
+.btn-login {
+  background-color: rgb(33, 33, 33); /* Черный фон */
+  color: white; /* Белый текст */
+  margin: 0px 50px;
+  padding: 10px 20px; /* Отступы внутри кнопки */
+  border-radius: 10px; /* Закругленные края */
+  text-decoration: none; /* Убираем подчеркивание */
+  font-family: 'Arial', sans-serif;
+  font-weight: bold; /* Жирный текст */
+  display: inline-block; /* Размещаем кнопку в одну строку с значком */
+}
+
+.btn-login:hover {
+  background-color: black
+}
+
+.btn-edit {
+  background-color: rgb(33, 33, 33); /* Черный фон */
+  color: white; /* Белый текст */
+  margin: 0px 50px;
+  padding: 5px 5px;
+  border-radius: 10px; /* Закругленные края */
+  text-decoration: none; /* Убираем подчеркивание */
+  font-family: 'Arial', sans-serif;
+  font-weight: bold; /* Жирный текст */
+  display: inline-block; /* Размещаем кнопку в одну строку с значком */
+}

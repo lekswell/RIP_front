@@ -1,14 +1,15 @@
 // Button.tsx
-import React from 'react';
 import "./Button.css"
+import React from 'react';
 
 interface ButtonProps {
   onClick: () => void;
-  children: React.ReactNode; // Add this line to include children prop
+  children: React.ReactNode;
+  className?: string; // Добавленный проп для className
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, children }) => (
-  <button type="button" className="btn-custom" onClick={onClick}>
+const Button: React.FC<ButtonProps> = ({ onClick, className, children }) => (
+  <button type="button" className={className} onClick={onClick}>
     {children}
   </button>
 );

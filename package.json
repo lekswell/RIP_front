@@ -12,15 +12,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.5.1",
+    "@reduxjs/toolkit": "^2.1.0",
+    "@types/react-calendar": "^4.1.0",
+    "axios": "^1.6.6",
     "bootstrap": "^5.3.2",
+    "date-fns": "^3.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
+    "react-calendar": "^4.8.0",
+    "react-datepicker": "^5.0.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.17.0"
+    "react-dropzone": "^14.2.3",
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^6.21.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
+    "@types/react-datepicker": "^4.19.5",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

@@ -1,5 +1,8 @@
+// EventsPage.tsx
+
 import React, { FC, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import EventCard from '../../components/EventCard/EventCard';
 import Header from '../../components/Header/Header';
@@ -8,6 +11,10 @@ import Button from '../../components/Button/Button';
 import './Events.css';
 import StatusFilter from '../../components/StatusFilter/StatusFilter';
 import logoImage from '/home/student/pythonProjects/front/src/components/Images/logo.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/Store';
+import { setSearch, setEventStatus } from '../../store/slices/FilterSlice';
+import { setDraft } from '../../store/slices/AuthSlice'; // Обновлено здесь
 
 interface Event {
   Event_id: number;
@@ -27,9 +34,9 @@ const EventsPage: FC = () => {
   const searchParam = queryParams.get('query') || '';
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [searchValue, setSearchValue] = useState(searchParam);
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [searchValue, setSearchValue] = useState(searchParam || localStorage.getItem('search') || '');
+  const [selectedStatus, setSelectedStatus] = useState(localStorage.getItem('eventStatus') || '');
+  const [isSearchClicked, setIsSearchClicked] = useState(true);
 
   const mockEvents: Event[] = [
     {
@@ -63,46 +70,76 @@ const EventsPage: FC = () => {
       Info: 'Крутое мероприятие №3',
     },
   ];
+  
+  const filter = useSelector((state: RootState) => state.filter);
+  const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      const storedSearch = localStorage.getItem('search') || '';
+      const storedEventStatus = localStorage.getItem('eventStatus') || '';
+
+      dispatch(setSearch(filter.search || storedSearch));
+      dispatch(setEventStatus(filter.eventStatus || storedEventStatus));
+    } else {
+      dispatch(setSearch(''));
+      dispatch(setEventStatus(''));
+
+      localStorage.removeItem('search');
+      localStorage.removeItem('eventStatus');
+    }
+  }, [dispatch, filter.search, filter.eventStatus, auth.isAuthenticated, auth.login]);
 
   const fetchEvents = (searchText: string, status: string) => {
     const queryParams = new URLSearchParams({
       search: searchText,
       status: status,
     });
-    
-    // Simulate fetching data from the server
-    fetch(`http://localhost:8000/events/?${queryParams}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setEvents(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching events:', error);
-        setEvents(mockEvents);
-      });
+
+    axios.get(`http://localhost:8000/events/?${queryParams}`)
+    .then((response) => {
+      console.log(response.data);
+      setEvents(response.data.events);
+  
+      if (auth.isAuthenticated) {
+        localStorage.setItem('hasDraft', response.data.hasDraft);
+        dispatch(setDraft(response.data.hasDraft));
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching events:', error);
+      setEvents(mockEvents);
+    });
   };
 
   const breadcrumbsItems = [
-    { label: 'Все мероприятия', link: '/RIP_front/events' },
+    { label: 'Мероприятия', link: '/RIP_front/events' },
   ];
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
-  
+
   const handleSearchClick = () => {
     navigateTo(`/RIP_front/events/?query=${searchValue}`);
     setIsSearchClicked(true);
+
+    if (auth.isAuthenticated) {
+      dispatch(setSearch(searchValue));
+      localStorage.setItem('search', searchValue);
+    }
   };
 
   const handleStatusChange = (status: string) => {
     setSelectedStatus(status);
     fetchEvents(searchValue, status);
-  };
 
-  useEffect(() => {
-    fetchEvents(searchValue, selectedStatus);
-  }, []); // Empty dependency array means this effect runs once on mount
+    if (auth.isAuthenticated) {
+      dispatch(setEventStatus(status));
+      localStorage.setItem('eventStatus', status);
+    }
+  };
 
   useEffect(() => {
     if (isSearchClicked) {
@@ -126,7 +163,9 @@ const EventsPage: FC = () => {
           value={searchValue}
           onChange={handleInputChange}
         />
-        <Button onClick={handleSearchClick}>Искать</Button>
+        <Button className="btn-custom" onClick={handleSearchClick}>
+          Искать
+        </Button>
         <StatusFilter
           selectedStatus={selectedStatus}
           onStatusChange={handleStatusChange}
@@ -143,6 +182,7 @@ const EventsPage: FC = () => {
               image={event.Image}
               status={event.Status}
               imageURL={event.ImageURL}
+              key={event.Event_id}
             />
           ))}
         </ul>

@@ -20,8 +20,8 @@ h2 {
 }
 
 h4 {
-  color: black;
-  margin: 20px 20px;
+  color: white;
+  margin-left: 20px;
   text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
   font-family: 'Arial', sans-serif;
 }
@@ -38,7 +38,7 @@ a {
 p {
   color: rgb(0, 0, 0); /* Белый текст */
   margin: 20px 20px;
-  text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+  text-shadow: 2px 2px 4px gray; /* Черная окантовка с тенью */
   font-family: 'Arial', sans-serif; /* Укажите желаемый шрифт */
   /* Дополнительные стили по вашему выбору */
 }
