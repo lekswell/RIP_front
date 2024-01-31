@@ -1,0 +1,14 @@
+.register-field { 
+    margin-bottom: 20px; /* Пример: добавляет отступ снизу между полями */
+}
+
+h4 {
+    color: white;
+    margin-left: 50px;
+    text-shadow: 2px 2px 4px black; /* Черная окантовка с тенью */
+    font-family: 'Arial', sans-serif;
+  }
+
+h4 a:hover {
+    color: #d1cfcf; /* Новый цвет текста ссылки при hover */
+}

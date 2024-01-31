@@ -1,0 +1,25 @@
+/* components/StatusFilter/StatusFilter.css */
+
+/* Стили для контейнера select */
+select {
+    background-color: rgb(33, 33, 33); /* Черный фон */
+    color: white; /* Белый текст */
+    margin: 0px 20px;
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    border-radius: 10px; /* Закругленные края */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold; /* Жирный текст */
+    display: inline-block; /* Размещаем кнопку в одну строку с значком */
+  }
+  
+  /* Стили для каждого option внутри select */
+  select option {
+    color: black; /* Цвет текста */
+    background-color: white; /* Белый фон */
+    font-family: 'Arial', sans-serif;
+  }
+
+  select:hover {
+    background-color: black
+  }

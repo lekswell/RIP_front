@@ -1,0 +1,32 @@
+/* ReservationDetailsPage.css */
+
+.reservation-details-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #747474   ; /* серый цвет фона */
+    margin: 50px;
+    border-radius: 5px;
+  }
+  
+  .general-info, .event-info {
+    width: 48%; /* ширина блоков */
+  }
+  
+  .event-data {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #747474;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+
+  .event-data:hover {
+    background-color: rgb(33, 33, 33);
+  }
+
+  .breadcrumbs-container {
+    margin-bottom: 0px; /* Уменьшение расстояния между Breadcrumbs и контейнером */
+  }
+
+  /* Добавьте другие стили, если необходимо */
+  
