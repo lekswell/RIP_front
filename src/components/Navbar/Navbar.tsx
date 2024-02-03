@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
           {role === 'User' && (
             <>
               <Link to="/RIP_front/events" className="btn-custom">
-                Каталог
+                Мероприятия
               </Link>
               <Link to="/RIP_front/reserves" className="btn-custom">
                 Заявки
@@ -61,10 +61,10 @@ const Navbar: React.FC = () => {
           {role === 'Admin' && (
             <>
               <Link to="/RIP_front/events" className="btn-custom">
-                Каталог
+                Мероприятия
               </Link>
-              <Link to="/RIP_front/edit_events" className="btn-custom">
-                Каталог: изменить
+              <Link to="/RIP_front/table_events" className="btn-custom">
+                Редактирование
               </Link>
               <Link to="/RIP_front/reserves" className="btn-custom">
                 Заявки
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
       ) : (
         <>
           <Link to="/RIP_front/events" className="btn-custom">
-            Каталог
+            Мероприятия
           </Link>
           <Link to="/RIP_front/login" className="btn-custom">
             Войти

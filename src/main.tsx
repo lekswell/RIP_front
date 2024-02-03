@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux'; // Добавлен импорт Provider
 import store from './store/Store'; // Укажите правильный путь к вашему store
@@ -9,9 +9,8 @@ import RegistrationPage from './pages/RegistrationPage/Registration';
 import LoginPage from './pages/LoginPage/Login';
 import ReservesPage from './pages/ReservesPage/Reserves';
 import ReservePage from './pages/ReservePage/Reserve';
-import EditEventPage from './pages/EditEventPage/EditEvent';
+import TableEventsPage from './pages/TableEventsPage/TableEvents';
 import AddEventPage from './pages/AddEventPage/AddEvent';
-import DraftPage from './pages/DraftPage/Draft';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +18,7 @@ const router = createBrowserRouter([
     element: <EventsPage />,
   },
   {
-    path: '/RIP_front/events/:id/',
+    path: '/RIP_front/events/:id',
     element: <EventPage />,
   },
   {
@@ -35,28 +34,28 @@ const router = createBrowserRouter([
     element: <ReservesPage />,
   },
   {
-    path: '/RIP_front/reserves/:id/',
+    path: '/RIP_front/reserves/:id',
     element: <ReservePage />,
   },
   {
-    path: '/RIP_front/edit_events',
-    element: <EditEventPage />,
+    path: '/RIP_front/events/:id/edit',
+    element: <AddEventPage />,
   },
   {
     path: '/RIP_front/add_event',
     element: <AddEventPage />,
   },
   {
-    path: '/RIP_front/draft',
-    element: <DraftPage />,
+    path: '/RIP_front/table_events',
+    element: <TableEventsPage />,
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.render(
   <React.StrictMode>
-    {/* Добавлен Provider для Redux Store */}
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>,
+  document.getElementById('root')
 );

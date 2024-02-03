@@ -1,0 +1,42 @@
+.event-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 50px;
+  }
+  
+  .columns {
+    display: flex;
+    column-gap: 10px;
+  }
+  
+  .column {
+    flex: 1;
+    width: 270px;
+    margin: 0 10px;
+  }
+  
+  .registration-input,
+  .registration-input,
+  .select {
+    width: 90%;
+    margin-bottom: 10px;
+  }
+  
+  .current-image {
+    margin: 0 30px;
+  }
+  
+  .edit-btn {
+    background-color: rgb(33, 33, 33);
+    color: white;
+    margin: 50px 55px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    width: 500px;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+  }
+  

@@ -28,5 +28,15 @@
     margin-bottom: 0px; /* Уменьшение расстояния между Breadcrumbs и контейнером */
   }
 
-  /* Добавьте другие стили, если необходимо */
+  .form-row {
+    gap: 20px;
+    width: 100%; /* чтобы управлять шириной формы */
+    margin-bottom: 20px;
+  }
+  
+  .form-group input {
+    width: 50%
+  }
+
+
   

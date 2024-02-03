@@ -34,6 +34,10 @@ const EventsPage: FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchParam = queryParams.get('query') || '';
+  const [hasDraft, setHasDraft] = useState(false); // Локальное состояние
+  const globalHasDraft = useSelector((state: RootState) => state.auth.hasDraft);
+
+
 
   const [events, setEvents] = useState<Event[]>([]);
   const [searchValue, setSearchValue] = useState(searchParam || localStorage.getItem('search') || '');
@@ -81,7 +85,7 @@ const EventsPage: FC = () => {
     if (auth.isAuthenticated) {
       const storedSearch = localStorage.getItem('search') || '';
       const storedEventStatus = localStorage.getItem('eventStatus') || '';
-
+      setHasDraft(globalHasDraft === 'True');
       dispatch(setSearch(filter.search || storedSearch));
       dispatch(setEventStatus(filter.eventStatus || storedEventStatus));
     } else {
@@ -91,7 +95,8 @@ const EventsPage: FC = () => {
       localStorage.removeItem('search');
       localStorage.removeItem('eventStatus');
     }
-  }, [dispatch, filter.search, filter.eventStatus, auth.isAuthenticated, auth.login]);
+    
+  }, [dispatch, filter.search, filter.eventStatus, auth.isAuthenticated, auth.login, globalHasDraft]);
 
   const fetchEvents = (searchText: string, status: string) => {
     const queryParams = new URLSearchParams({
@@ -152,19 +157,23 @@ const EventsPage: FC = () => {
     }
   }, [searchValue, selectedStatus, isSearchClicked]);
 
+  useEffect(() => {
+    fetchEvents(searchValue, selectedStatus);
+  }, [hasDraft]); // Вызывать fetchEvents при изменении hasDraft
+
   const handleCartClick = () => {
     // Обработка клика по корзине
-    navigateTo("/RIP_front/draft");
+    const DraftId = localStorage.getItem('draftId');
+    navigateTo(`/RIP_front/reserves/${DraftId}`);
   };
+
   const cartIcon = (
     <div>
-      <img className="button-image" src={full_cart} alt="Cart" />
-      <Button className="btn-draft" onClick={handleCartClick}>
-        Оформить заказ
-      </Button>
+      <img className="button-image" src={hasDraft ? full_cart : empty_cart} alt="Cart" />
     </div>
   );
-
+  
+  
 
   return (
     <div>
@@ -188,9 +197,13 @@ const EventsPage: FC = () => {
           selectedStatus={selectedStatus}
           onStatusChange={handleStatusChange}
         />
-        {auth.isAuthenticated && auth.role === 'User' ? (
-          auth.hasDraft === 'True' ? cartIcon : <img className="button-image" src={empty_cart} alt="Empty Cart" />
-        ) : null}
+      {auth.isAuthenticated === 'true' && auth.role === 'User' && cartIcon}
+
+      {hasDraft && auth.role === 'User' && (
+        <button className="btn-draft" onClick={handleCartClick}>
+          Оформить заявку
+        </button>
+      )}
       </div>
       <div>
         <ul>

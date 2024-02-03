@@ -49,8 +49,8 @@
 .btn-draft {
   background-color: rgb(33, 33, 33); /* Черный фон */
   color: white; /* Белый текст */
-  padding: 5px 10px; /* Отступы внутри кнопки */
-  margin-left: 315px;
+  padding: 10px 20px; /* Отступы внутри кнопки */
+  margin-left: 10px;
   border-radius: 10px; /* Закругленные края */
   text-decoration: none; /* Убираем подчеркивание */
   font-family: 'Arial', sans-serif;

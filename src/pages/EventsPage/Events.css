@@ -55,7 +55,8 @@ p {
   gap: 10px;
 }
 
-
 .button-image {
-  margin-left: 340px;
+  max-height: 80px;
+  max-width: 80px;
+  margin-left: 0px;
 }

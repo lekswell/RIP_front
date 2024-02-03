@@ -6,6 +6,7 @@ interface FilterState {
   endDate: string | null;
   eventStatus: string | null;
   reserveStatus: string | null;
+  clientId: string | null;
   // Другие поля, если необходимо
 }
 
@@ -14,6 +15,7 @@ const storedStartDate = localStorage.getItem('startDate');
 const storedEndDate = localStorage.getItem('endDate');
 const storedEventStatus = localStorage.getItem('eventStatus');
 const storedReserveStatus = localStorage.getItem('reserveStatus');
+const storedClientId = localStorage.getItem('clientId')
 
 const initialState: FilterState = {
   search: storedSearch || null,
@@ -21,6 +23,7 @@ const initialState: FilterState = {
   endDate: storedEndDate || null,
   eventStatus: storedEventStatus || null,
   reserveStatus: storedReserveStatus || null,
+  clientId: storedClientId || null,
   // Инициализируйте другие поля, если необходимо
 };
 
@@ -44,6 +47,10 @@ const FilterSlice = createSlice({
       state.eventStatus = action.payload;
       localStorage.setItem('eventStatus', action.payload);
     },
+    setClientId: (state, action: PayloadAction<string>) => {
+      state.clientId = action.payload;
+      localStorage.setItem('clientId', action.payload);
+    },
     setReserveStatus: (state, action: PayloadAction<string>) => {
       state.reserveStatus = action.payload;
       localStorage.setItem('reserveStatus', action.payload);
@@ -54,11 +61,13 @@ const FilterSlice = createSlice({
       state.endDate = null;
       state.eventStatus = null;
       state.reserveStatus = null;
+      state.clientId = null;
       localStorage.removeItem('search');
       localStorage.removeItem('startDate');
       localStorage.removeItem('endDate');
       localStorage.removeItem('eventStatus');
       localStorage.removeItem('reserveStatus');
+      localStorage.removeItem('clientId');
     }
     // Добавьте другие reducers для других полей, если необходимо
   },
@@ -70,6 +79,7 @@ export const {
   setEndDate,
   setEventStatus,
   setReserveStatus,
+  setClientId,
   setRemoveFilters,
   // Экспортируйте другие reducers, если необходимо
 } = FilterSlice.actions;

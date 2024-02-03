@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
@@ -14,20 +13,31 @@ import {
   setStartDate,
   setEndDate,
   setReserveStatus,
+  setClientId,
 } from '../../store/slices/FilterSlice';
 
 registerLocale('ru', ru);
 
-const breadcrumbsItems = [
-  { label: 'Главная', link: '/RIP_front/events' },
-  { label: 'Мои заявки', link: '' },
-];
 
 const ReservationsPage: React.FC = () => {
   const dispatch = useDispatch();
-  const { startDate, endDate, reserveStatus } = useSelector((state: RootState) => state.filter);
+  const { startDate, endDate, reserveStatus, clientId } = useSelector((state: RootState) => state.filter);
   const role = useSelector((state: RootState) => state.auth.role);
+  const formattedStartDate = startDate ? new Date(startDate).toISOString().split('T')[0] : '';
+  const formattedEndDate = endDate ? new Date(endDate).toISOString().split('T')[0] : '';
 
+  let breadcrumbsItems;
+  if (role === 'Admin') {
+    breadcrumbsItems = [
+      { label: 'Главная', link: '/RIP_front/events' },
+      { label: 'Заявки', link: '' },
+    ];
+  } else {
+    breadcrumbsItems = [
+      { label: 'Главная', link: '/RIP_front/events' },
+      { label: 'Мои заявки', link: '' },
+    ];
+  }
   const [reservations, setReservations] = useState<any[]>([]);
 
   const loadReservations = async () => {
@@ -36,28 +46,28 @@ const ReservationsPage: React.FC = () => {
       const formattedEndDate = endDate ? new Date(endDate).toISOString().split('T')[0] : null;
 
       const response = await axios.get('http://localhost:8000/reserves/', {
-        params: { start_date: formattedStartDate, end_date: formattedEndDate, status: reserveStatus },
+        params: {
+          start_date: formattedStartDate,
+          end_date: formattedEndDate,
+          status: reserveStatus,
+          clientId, // Добавлен новый параметр
+        },
         withCredentials: true,
       });
-
       setReservations(response.data);
     } catch (error) {
       console.error('Ошибка при загрузке заявок:', error);
     }
   };
 
-  // Загрузка данных при монтировании компонента
   useEffect(() => {
     loadReservations();
-  }, [startDate, endDate, reserveStatus]);
+  }, [startDate, endDate, reserveStatus, clientId]);
 
-  // Начинаем опрашивать сервер каждые 5 секунд
   useEffect(() => {
     const intervalId = setInterval(loadReservations, 5000);
-
-    // Очищаем интервал при размонтировании компонента
     return () => clearInterval(intervalId);
-  }, [startDate, endDate, reserveStatus]);
+  }, [startDate, endDate, reserveStatus, clientId]);
 
   const handleFilterStartDateChange = (date: Date | null) => {
     dispatch(setStartDate(date ? date.toISOString() : null));
@@ -69,6 +79,23 @@ const ReservationsPage: React.FC = () => {
 
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setReserveStatus(event.target.value));
+  };
+
+  const handleClientIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setClientId(event.target.value));
+  };
+
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZone: 'Europe/Moscow',
+    };
+    return new Date(dateString).toLocaleDateString('ru-RU', options);
   };
 
   const handleComplete = async (reservation: any) => {
@@ -84,7 +111,7 @@ const ReservationsPage: React.FC = () => {
       console.error('Ошибка при завершении заявки:', error);
     }
   };
-  
+
   const handleCancel = async (reservation: any) => {
     try {
       // Отправляем запрос на сервер для отмены заявки
@@ -97,19 +124,6 @@ const ReservationsPage: React.FC = () => {
     } catch (error) {
       console.error('Ошибка при отмене заявки:', error);
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      timeZone: 'Europe/Moscow',
-    };
-    return new Date(dateString).toLocaleDateString('ru-RU', options);
   };
 
   return (
@@ -127,117 +141,134 @@ const ReservationsPage: React.FC = () => {
             <option value="C">Завершена</option>
           </select>
         </div>
-
         <div className="filter-item">
           <h3>Начальная дата:</h3>
-          <DatePicker
-            selected={startDate ? new Date(startDate) : null}
-            onChange={handleFilterStartDateChange}
-            locale="ru"
-            dateFormat="dd.MM.yyyy"
+          <input
+            type="date"
+            id="start_date"
+            className="registration-input"
+            name="Start_date"
+            value={formattedStartDate}
+            onChange={(e) => handleFilterStartDateChange(new Date(e.target.value))}
+            required
           />
         </div>
 
         <div className="filter-item">
           <h3>Конечная дата:</h3>
-          <DatePicker
-            selected={endDate ? new Date(endDate) : null}
-            onChange={handleFilterEndDateChange}
-            locale="ru"
-            dateFormat="dd.MM.yyyy"
+          <input
+            type="date"
+            id="end_date"
+            className="registration-input"
+            name="End_date"
+            value={formattedEndDate}
+            onChange={(e) => handleFilterEndDateChange(new Date(e.target.value))}
+            required
           />
         </div>
+
+        {role === 'Admin' && (
+          <div className="filter-item">
+            <h3>Клиент ID:</h3>
+            <input
+              type="text"
+              placeholder="Введите Client ID"
+              value={clientId || ''}
+              onChange={handleClientIdChange}
+            />
+          </div>
+        )}
       </div>
 
       <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Номер заявки</th>
-              <th>Дата формирования</th>
-              <th>Статус</th>
-
-              {/* Заголовки для админа */}
-              {role === 'Admin' && (
-                <>
-                  <th>Creation_date</th>
-                  <th>Completion_date</th>
-                  <th>Client_id</th>
-                  <th>Moderator_id</th>
-                  <th>Available</th>
-                  <th>Действия</th>
-                </>
+  <table>
+    <thead>
+      <tr>
+        <th>№ заявки</th>
+        <th>Дата формирования</th>
+        <th>Статус</th>
+        {role === 'Admin' && (
+          <>
+            <th>Дата создания</th>
+            <th>Дата завершения</th>
+            <th>Клиент Id</th>
+            <th>Модератор Id</th>
+            <th>Доступно</th>
+            <th>Действия</th>
+          </>
+        )}
+      </tr>
+    </thead>
+    <tbody>
+      {reservations.map((reservation, index) => (
+        <tr key={index}>
+          <td>
+            <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+              {index + 1}
+            </Link>
+          </td>
+          <td>
+            <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+              {formatDate(reservation.reservation.Formation_date) || ''}
+            </Link>
+          </td>
+          <td>
+            <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+              {reservation.reservation.Status === 'iP' && 'В работе'}
+              {reservation.reservation.Status === 'Ca' && 'Отменена'}
+              {reservation.reservation.Status === 'C' && 'Завершена'}
+            </Link>
+          </td>
+          {role === 'Admin' && (
+            <>
+              <td>
+                <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                  {reservation.reservation.Creation_date
+                    ? formatDate(reservation.reservation.Creation_date)
+                    : ''}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                  {reservation.reservation.Completion_date
+                    ? formatDate(reservation.reservation.Completion_date)
+                    : ''}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                  {reservation.reservation.Client_id}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                  {reservation.reservation.Moderator_id}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
+                  {reservation.reservation.Available !== undefined
+                    ? String(reservation.reservation.Available)
+                    : 'Неизвестно'}
+                </Link>
+              </td>
+              {reservation.reservation.Status === 'iP' && (
+                <td>
+                  <button className="btn-edit" onClick={() => handleComplete(reservation)}>
+                    Принять
+                  </button>
+                  <button className="btn-edit" onClick={() => handleCancel(reservation)}>
+                    Отклонить
+                  </button>
+                </td>
               )}
-            </tr>
-          </thead>
-          <tbody>
-            {reservations.map((reservation, index) => (
-              <tr key={index}>
-                <td>
-                  <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                    {index + 1}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                    {formatDate(reservation.reservation.Formation_date)}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                    {reservation.reservation.Status === 'iP' && 'В работе'}
-                    {reservation.reservation.Status === 'Ca' && 'Отменена'}
-                    {reservation.reservation.Status === 'C' && 'Завершена'}
-                  </Link>
-                </td>
-
-                {/* Данные для админа */}
-                {role === 'Admin' && (
-                  <>
-                    <td>
-                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                      {formatDate(reservation.reservation.Creation_date)}
-                    </Link>
-                    </td>
-                    <td>
-                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                      {formatDate(reservation.reservation.Completion_date)}
-                    </Link>
-                    </td>
-                    <td>
-                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                      {reservation.reservation.Client_id}
-                    </Link>
-                    </td>
-                    <td>
-                    <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                      {reservation.reservation.Moderator_id}
-                    </Link>
-                    </td>
-                    <td>
-                      <Link to={`/RIP_front/reserves/${reservation.reservation.Reserve_id}`}>
-                        {reservation.reservation.Available !== undefined
-                          ? String(reservation.reservation.Available)
-                          : 'Неизвестно'}
-                      </Link>
-                    </td>
-                  </>
-                )}
-                {role === 'Admin' && reservation.reservation.Status === 'iP' && (
-                  <td>
-                    <button className='btn-edit' onClick={() => handleComplete(reservation)}>
-                      Завершить
-                    </button>
-                    <button className='btn-edit' onClick={() => handleCancel(reservation)}>
-                      Отменить
-                    </button>
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </>
+          )}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
     </div>
   );
 };

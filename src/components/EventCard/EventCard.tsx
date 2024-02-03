@@ -5,6 +5,8 @@ import "./EventCard.css";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/Store';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setDraft } from '../../store/slices/AuthSlice'; 
 
 interface EventCardProps {
   eventId: number;
@@ -16,7 +18,9 @@ interface EventCardProps {
   imageURL: string;
 }
 
+
 const EventCard: React.FC<EventCardProps> = ({ eventId, name, startDate, endDate, image, status, imageURL }) => {
+  const dispatch = useDispatch(); // Get the dispatch function
   const role = useSelector((state: RootState) => state.auth.role);
 
   const handleAddClick = (eventId: number) => {
@@ -24,14 +28,16 @@ const EventCard: React.FC<EventCardProps> = ({ eventId, name, startDate, endDate
     const requestData = {
       Group_info: '', // или оставьте undefined
       Group_size: 0, // или оставьте undefined
-      Date: '2023-02-01',       // или оставьте undefined
+      Date: '2023-02-05',       // или оставьте undefined
     };
-  
     // Отправляем POST-запрос на сервер
     axios.post(`http://localhost:8000/events/${eventId}/add/`, requestData, { withCredentials: true })
       .then(response => {
         // Обработка успешного ответа
         console.log('Успешно добавлено в заявку:', response.data);
+
+        // Dispatch the action to update hasDraft to true
+        dispatch(setDraft('True'));
       })
       .catch(error => {
         // Обработка ошибок
@@ -46,11 +52,11 @@ const EventCard: React.FC<EventCardProps> = ({ eventId, name, startDate, endDate
         <img src={image !== 'http://localhost:9000/events/' ? imageURL : logoImage} alt={name} />
       </Link>
       <h5>
-        {getStatusText(status)}: {startDate} - {endDate}
+      {getStatusText(status)}: {new Date(startDate).toLocaleDateString('ru-RU')} - {new Date(endDate).toLocaleDateString('ru-RU')}
       </h5>
       {role === 'User' && (
         <div className="admin-controls">
-          <button className='btn-custom' onClick={() =>{handleAddClick(eventId); window.location.reload(); }}>Посетить мероприятие</button>
+          <button className='btn-custom' onClick={() =>{handleAddClick(eventId) }}>Посетить мероприятие</button>
         </div>
       )}
     </li>
